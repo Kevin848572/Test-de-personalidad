@@ -1,19 +1,18 @@
 import 'dotenv/config';
-import { handle } from 'hono/vercel';
+import { getRequestListener } from '@hono/node-server';
 import { createApp } from '../apps/api/dist/app.js';
 
-let cachedPromise: ReturnType<typeof createApp> | null = null;
+let cachedListener: any = null;
 
-function getApp() {
-  if (!cachedPromise) {
-    cachedPromise = createApp().then(async (result) => {
-      await result.seed().catch((err: Error) => {
-        console.warn('Seed serverless inicial omitido:', err.message);
-      });
-      return result;
+async function getListener() {
+  if (!cachedListener) {
+    const { app, seed } = await createApp();
+    await seed().catch((err: Error) => {
+      console.warn('Seed serverless inicial omitido:', err.message);
     });
+    cachedListener = getRequestListener(app.fetch);
   }
-  return cachedPromise;
+  return cachedListener;
 }
 
 export const config = {
@@ -21,7 +20,20 @@ export const config = {
 };
 
 export default async function handler(req: any, res: any) {
-  const { app } = await getApp();
-  const vercelHandler = handle(app);
-  return vercelHandler(req, res);
+  try {
+    if (req.headers && req.headers['x-forwarded-uri']) {
+      req.url = req.headers['x-forwarded-uri'];
+    }
+    const listener = await getListener();
+    return listener(req, res);
+  } catch (error: any) {
+    console.error('Error en Serverless Function:', error);
+    res.statusCode = 500;
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({
+      error: 'Error interno del servidor en Vercel Function',
+      message: error?.message || String(error)
+    }));
+  }
 }
+

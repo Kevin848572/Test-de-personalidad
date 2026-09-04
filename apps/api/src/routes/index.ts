@@ -29,6 +29,8 @@ export function buildRouter(
   const app = new Hono();
 
   // --- Público ---
+  app.get('/', (c) => c.json({ status: 'ok', service: 'personalidad-api', message: 'API de Test de Personalidad activa' }));
+  app.get('/api', (c) => c.json({ status: 'ok', service: 'personalidad-api', message: 'API de Test de Personalidad activa' }));
   app.get('/health', (c) => health.check(c));
   app.get('/api/questions', (c) => questions.list(c));
   app.get('/api/personalities', (c) => personalities.list(c));
