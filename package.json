@@ -5,7 +5,7 @@
   "packageManager": "pnpm@11.2.2",
   "scripts": {
     "dev": "pnpm --parallel --filter @personalidad/web --filter @personalidad/api dev",
-    "build": "pnpm -r run build",
+    "build": "pnpm --filter @personalidad/core run build && pnpm --filter @personalidad/api run build && pnpm --filter @personalidad/web run build",
     "start": "pnpm --filter @personalidad/api start",
     "typecheck": "pnpm -r --parallel run typecheck"
   },
