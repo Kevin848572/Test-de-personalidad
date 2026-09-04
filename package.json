@@ -5,8 +5,8 @@
   "packageManager": "pnpm@11.2.2",
   "scripts": {
     "dev": "pnpm --parallel --filter @personalidad/web --filter @personalidad/api dev",
-    "build": "pnpm --filter @personalidad/core run build && pnpm --filter @personalidad/api run build && pnpm --filter @personalidad/web run build",
-    "vercel-build": "pnpm --filter @personalidad/core run build && pnpm --filter @personalidad/api run build && pnpm --filter @personalidad/web run build",
+    "build": "pnpm --filter @personalidad/core run build && pnpm --filter @personalidad/api run build && pnpm --filter @personalidad/web run build && node -e \"const fs=require('fs');fs.cpSync('apps/web/dist','dist',{recursive:true})\"",
+    "vercel-build": "pnpm --filter @personalidad/core run build && pnpm --filter @personalidad/api run build && pnpm --filter @personalidad/web run build && node -e \"const fs=require('fs');fs.cpSync('apps/web/dist','dist',{recursive:true})\"",
     "start": "pnpm --filter @personalidad/api start",
     "typecheck": "pnpm -r --parallel run typecheck"
   },
