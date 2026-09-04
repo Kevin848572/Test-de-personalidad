@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Question } from '@personalidad/core';
 import { api } from './services/api';
 import { Background } from './components/Background';
-import { OnlineUsersPanel } from './components/OnlineUsersPanel';
 import { LoginView } from './components/LoginView';
 import { QuizView } from './components/QuizView';
 import { ResultView } from './components/ResultView';
@@ -125,7 +124,6 @@ export default function App() {
       style={{ backgroundImage: "url('/img/fondo.png')" }}
     >
       <Background />
-      <OnlineUsersPanel />
 
       {screen === 'login' && <LoginView onStart={handleStart} />}
 
