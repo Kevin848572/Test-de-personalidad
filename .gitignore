@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# Env & Secrets
+.env
+.env.local
+.env.*.local
+*service-account*.json
+*firebase*.json
+*.pem
+
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# SQLite databases
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite-journal
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
